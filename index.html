@@ -7,7 +7,6 @@
 <title>Speak & Save Dictionary</title>
 
 <style>
-
 *{
     box-sizing:border-box;
 }
@@ -20,7 +19,7 @@ body{
 }
 
 .container{
-    max-width:850px;
+    max-width:900px;
     margin:auto;
     padding:15px;
 }
@@ -80,14 +79,14 @@ button.primary{
     color:white;
 }
 
-button.danger{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
 button.audio{
     background:#111827;
     color:white;
+}
+
+button.danger{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
 #status{
@@ -199,192 +198,183 @@ button.audio{
     button{
         width:100%;
     }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
 <div class="container">
 
-
 <div class="hero">
-
-<h1>🎙️ Speak & Save Dictionary</h1>
-
-<p>
-Speak a word → get meaning → pronunciation → example → save it.
-</p>
-
+    <h1>🎙️ Speak & Save Dictionary</h1>
+    <p>
+        Speak a word → get meaning → pronunciation → example → save it.
+    </p>
 </div>
 
 
+<!-- LOOKUP -->
 
 <div class="card">
 
-<div class="row">
+    <div class="row">
 
-<input
-id="wordInput"
-placeholder="Speak or type a word..."
-autocomplete="off"
->
+        <input
+            id="wordInput"
+            placeholder="Speak or type a word..."
+            autocomplete="off"
+        >
 
-<button
-class="primary"
-onclick="startSpeech()"
->
-🎙️ Speak
-</button>
+        <button
+            class="primary"
+            onclick="startSpeech()"
+        >
+            🎙️ Speak
+        </button>
 
-<button
-onclick="lookupWord()"
->
-🔎 Search
-</button>
+        <button
+            onclick="lookupWord()"
+        >
+            🔎 Search
+        </button>
 
-<button
-onclick="googleSearch()"
->
-Google
-</button>
+        <button
+            onclick="googleSearch()"
+        >
+            Google
+        </button>
 
-</div>
-
-
-<div id="status">
-Ready. Tap Speak and say an English word.
-</div>
+    </div>
 
 
-<div
-id="result"
-class="result"
->
-
-<div
-id="resultWord"
-class="result-word"
-></div>
-
-<div
-id="resultPart"
-class="part"
-></div>
-
-<div
-id="resultPronunciation"
-class="pronunciation"
-></div>
-
-<div
-class="actions"
->
-
-<button
-id="listenButton"
-class="audio"
-onclick="playPronunciation()"
-style="display:none"
->
-🔊 Listen
-</button>
-
-</div>
+    <div id="status">
+        Ready. Tap Speak and say an English word.
+    </div>
 
 
-<div
-id="resultDefinition"
-class="definition"
-></div>
+    <div
+        id="result"
+        class="result"
+    >
+
+        <div
+            id="resultWord"
+            class="result-word"
+        ></div>
 
 
-<div
-id="resultExample"
-class="example"
-style="display:none"
-></div>
+        <div
+            id="resultPart"
+            class="part"
+        ></div>
 
 
-<div
-class="actions"
->
+        <div
+            id="resultPronunciation"
+            class="pronunciation"
+        ></div>
 
-<button
-class="primary"
-onclick="saveCurrentWord()"
->
-💾 Save Word
-</button>
 
-</div>
+        <div class="actions">
 
-</div>
+            <button
+                class="audio"
+                onclick="speakCurrentWord()"
+            >
+                🔊 Listen
+            </button>
+
+        </div>
+
+
+        <div
+            id="resultDefinition"
+            class="definition"
+        ></div>
+
+
+        <div
+            id="resultExample"
+            class="example"
+            style="display:none"
+        ></div>
+
+
+        <div class="actions">
+
+            <button
+                class="primary"
+                onclick="saveCurrentWord()"
+            >
+                💾 Save Word
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
 
+
+<!-- SAVED WORDS -->
 
 <div class="card">
 
-<div
-style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-"
->
+    <div
+        style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:10px;
+        "
+    >
 
-<h2 style="margin:0">
-Saved Vocabulary
-</h2>
+        <h2 style="margin:0">
+            📚 My Vocabulary
+        </h2>
 
-<span
-id="count"
-class="count"
->
-0 words
-</span>
+        <span
+            id="count"
+            class="count"
+        >
+            0 words
+        </span>
+
+    </div>
+
+
+    <div
+        class="row"
+        style="margin-top:12px"
+    >
+
+        <input
+            id="filterInput"
+            placeholder="Search saved words..."
+            oninput="renderSavedWords()"
+        >
+
+        <button
+            onclick="exportCSV()"
+        >
+            📊 Download CSV
+        </button>
+
+        <button
+            onclick="deleteAllWords()"
+            class="danger"
+        >
+            Delete All
+        </button>
+
+    </div>
+
+
+    <div id="savedList"></div>
 
 </div>
-
-
-<div
-class="row"
-style="margin-top:12px"
->
-
-<input
-id="filterInput"
-placeholder="Search saved words..."
-oninput="renderSavedWords()"
->
-
-<button
-onclick="exportWords()"
->
-⬇️ Export
-</button>
-
-<button
-class="danger"
-onclick="deleteAllWords()"
->
-Delete All
-</button>
-
-</div>
-
-
-<div id="savedList"></div>
-
-</div>
-
 
 </div>
 
@@ -392,12 +382,12 @@ Delete All
 
 <script>
 
-/* =========================================
+/* =========================================================
    STORAGE
-========================================= */
+========================================================= */
 
 const STORAGE_KEY =
-"speak-save-dictionary-v3";
+"speak-save-dictionary-v4";
 
 
 let savedWords =
@@ -408,24 +398,18 @@ localStorage.getItem(STORAGE_KEY) || "[]"
 
 let currentWord = null;
 
-let currentAudio = null;
 
-
-/* =========================================
-   HELPERS
-========================================= */
+/* =========================================================
+   HELPER
+========================================================= */
 
 function $(id){
-
     return document.getElementById(id);
-
 }
 
 
-function setStatus(text){
-
-    $("status").textContent = text;
-
+function setStatus(message){
+    $("status").textContent = message;
 }
 
 
@@ -435,7 +419,7 @@ function escapeHTML(text){
         return "";
     }
 
-    return text
+    return String(text)
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -445,9 +429,9 @@ function escapeHTML(text){
 }
 
 
-/* =========================================
+/* =========================================================
    SPEECH RECOGNITION
-========================================= */
+========================================================= */
 
 function startSpeech(){
 
@@ -459,11 +443,10 @@ function startSpeech(){
     if(!SpeechRecognition){
 
         setStatus(
-            "Speech recognition is not supported. Please use Chrome on Android."
+            "Speech recognition is not supported. Use Chrome on Android."
         );
 
         return;
-
     }
 
 
@@ -518,14 +501,26 @@ function startSpeech(){
         };
 
 
-    recognition.start();
+    try{
+
+        recognition.start();
+
+    }
+
+    catch(error){
+
+        setStatus(
+            "Unable to start microphone. Try again."
+        );
+
+    }
 
 }
 
 
-/* =========================================
-   WIKTAPI REQUEST
-========================================= */
+/* =========================================================
+   WIKTAPI
+========================================================= */
 
 async function getWiktEntry(word){
 
@@ -541,51 +536,7 @@ async function getWiktEntry(word){
 
 
         if(!response.ok){
-
             return null;
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        return data;
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================
-   DEFINITIONS ENDPOINT
-========================================= */
-
-async function getDefinitions(word){
-
-    const url =
-        "https://api.wiktapi.dev/v1/en/word/" +
-        encodeURIComponent(word) +
-        "/definitions";
-
-
-    try{
-
-        const response =
-            await fetch(url);
-
-
-        if(!response.ok){
-
-            return null;
-
         }
 
 
@@ -602,85 +553,9 @@ async function getDefinitions(word){
 }
 
 
-/* =========================================
-   PRONUNCIATION ENDPOINT
-========================================= */
-
-async function getPronunciations(word){
-
-    const url =
-        "https://api.wiktapi.dev/v1/en/word/" +
-        encodeURIComponent(word) +
-        "/pronunciations";
-
-
-    try{
-
-        const response =
-            await fetch(url);
-
-
-        if(!response.ok){
-
-            return null;
-
-        }
-
-
-        return await response.json();
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================
-   WORD FORMS
-========================================= */
-
-async function getForms(word){
-
-    const url =
-        "https://api.wiktapi.dev/v1/en/word/" +
-        encodeURIComponent(word) +
-        "/forms";
-
-
-    try{
-
-        const response =
-            await fetch(url);
-
-
-        if(!response.ok){
-
-            return null;
-
-        }
-
-
-        return await response.json();
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================
-   SEARCH WIKTAPI
-========================================= */
+/* =========================================================
+   SEARCH FALLBACK
+========================================================= */
 
 async function searchWikt(word){
 
@@ -696,9 +571,7 @@ async function searchWikt(word){
 
 
         if(!response.ok){
-
             return null;
-
         }
 
 
@@ -715,11 +588,11 @@ async function searchWikt(word){
 }
 
 
-/* =========================================
-   EXTRACT ENTRY
-========================================= */
+/* =========================================================
+   GET ENTRY
+========================================================= */
 
-function chooseEnglishEntry(data){
+function chooseEntry(data){
 
     if(!data){
         return null;
@@ -728,7 +601,7 @@ function chooseEnglishEntry(data){
 
     if(
         data.entries &&
-        data.entries.length
+        Array.isArray(data.entries)
     ){
 
         return data.entries.find(
@@ -750,19 +623,19 @@ function chooseEnglishEntry(data){
 }
 
 
-/* =========================================
-   LOOKUP WORD
-========================================= */
+/* =========================================================
+   LOOKUP
+========================================================= */
 
 async function lookupWord(){
 
-    let word =
+    const originalWord =
         $("wordInput")
         .value
         .trim();
 
 
-    if(!word){
+    if(!originalWord){
 
         setStatus(
             "Please speak or type a word first."
@@ -779,76 +652,65 @@ async function lookupWord(){
 
     setStatus(
         "🔎 Looking up \"" +
-        word +
+        originalWord +
         "\"..."
     );
 
 
     currentWord = null;
 
-    currentAudio = null;
+
+    let lookupWord =
+        originalWord;
 
 
-    /* ================================
-       1. EXACT ENTRY
-    ================================= */
-
-    let entryData =
-        await getWiktEntry(word);
-
-
-    let entry =
-        chooseEnglishEntry(
-            entryData
+    let data =
+        await getWiktEntry(
+            lookupWord
         );
 
 
-    let lookupWordUsed =
-        word;
+    let entry =
+        chooseEntry(data);
 
 
-    /* ================================
-       2. IF EXACT ENTRY FAILS,
-          SEARCH FOR WORD
-    ================================= */
+    /*
+       If exact word doesn't work,
+       search WiktApi.
+    */
 
     if(!entry){
 
-        const searchResult =
-            await searchWikt(word);
+        const search =
+            await searchWikt(
+                originalWord
+            );
 
 
         if(
-            searchResult &&
-            searchResult.results &&
-            searchResult.results.length
+            search &&
+            search.results &&
+            search.results.length
         ){
 
-            const first =
-                searchResult.results[0];
-
-
             const candidate =
-                first.word ||
-                first;
+                search.results[0].word;
 
 
             if(candidate){
 
-                lookupWordUsed =
+                lookupWord =
                     candidate;
 
 
-                entryData =
+                data =
                     await getWiktEntry(
-                        candidate
+                        lookupWord
                     );
 
 
                 entry =
-                    chooseEnglishEntry(
-                        entryData
-                    );
+                    chooseEntry(data);
 
             }
 
@@ -857,44 +719,41 @@ async function lookupWord(){
     }
 
 
-    /* ================================
-       3. DEFINITIONS
-    ================================= */
+    if(!entry){
 
-    let definitionsData =
-        await getDefinitions(
-            lookupWordUsed
+        setStatus(
+            "Couldn't find the definition. Try Google."
         );
 
-
-    let definitionText = "";
-
-    let exampleText = "";
-
-    let partOfSpeech = "";
-
-
-    if(entry){
-
-        partOfSpeech =
-            entry.pos ||
-            "";
+        return;
 
     }
 
 
-    /*
-       Extract definitions from
-       the full entry first.
-    */
+    /* =====================================================
+       PART OF SPEECH
+    ===================================================== */
+
+    const partOfSpeech =
+        entry.pos ||
+        "";
+
+
+    /* =====================================================
+       DEFINITIONS
+    ===================================================== */
+
+    let definitions = [];
+
+    let examples = [];
+
 
     if(
-        entry &&
-        entry.senses
+        entry.senses &&
+        Array.isArray(entry.senses)
     ){
 
         entry.senses
-        .slice(0,5)
         .forEach(
             function(sense){
 
@@ -903,46 +762,76 @@ async function lookupWord(){
                     sense.glosses.length
                 ){
 
-                    if(!definitionText){
+                    sense.glosses
+                    .forEach(
+                        function(gloss){
 
-                        definitionText =
-                            sense.glosses
-                            .slice(0,3)
-                            .join("; ");
+                            if(
+                                !definitions.includes(
+                                    gloss
+                                )
+                            ){
 
-                    }
+                                definitions.push(
+                                    gloss
+                                );
+
+                            }
+
+                        }
+                    );
 
                 }
 
 
                 if(
-                    !exampleText &&
                     sense.examples &&
                     sense.examples.length
                 ){
 
-                    const example =
-                        sense.examples[0];
+                    sense.examples
+                    .forEach(
+                        function(example){
+
+                            let text = "";
 
 
-                    if(
-                        typeof example === "string"
-                    ){
+                            if(
+                                typeof example ===
+                                "string"
+                            ){
 
-                        exampleText =
-                            example;
+                                text =
+                                    example;
 
-                    }
+                            }
 
-                    else if(
-                        example &&
-                        example.text
-                    ){
+                            else if(
+                                example &&
+                                example.text
+                            ){
 
-                        exampleText =
-                            example.text;
+                                text =
+                                    example.text;
 
-                    }
+                            }
+
+
+                            if(
+                                text &&
+                                !examples.includes(
+                                    text
+                                )
+                            ){
+
+                                examples.push(
+                                    text
+                                );
+
+                            }
+
+                        }
+                    );
 
                 }
 
@@ -952,156 +841,39 @@ async function lookupWord(){
     }
 
 
-    /*
-       Try definitions endpoint
-       if needed.
-    */
-
-    if(
-        !definitionText &&
-        definitionsData
-    ){
-
-        const defs =
-            definitionsData.definitions ||
-            definitionsData.entries ||
-            [];
+    const definition =
+        definitions
+        .slice(0,3)
+        .join("; ");
 
 
-        if(Array.isArray(defs)){
-
-            defs.forEach(
-                function(def){
-
-                    if(
-                        !definitionText &&
-                        def.glosses
-                    ){
-
-                        definitionText =
-                            def.glosses
-                            .slice(0,3)
-                            .join("; ");
-
-                    }
+    const example =
+        examples[0] ||
+        "";
 
 
-                    if(
-                        !exampleText &&
-                        def.examples &&
-                        def.examples.length
-                    ){
+    if(!definition){
 
-                        const ex =
-                            def.examples[0];
-
-
-                        if(
-                            typeof ex === "string"
-                        ){
-
-                            exampleText = ex;
-
-                        }
-
-                        else if(
-                            ex &&
-                            ex.text
-                        ){
-
-                            exampleText =
-                                ex.text;
-
-                        }
-
-                    }
-
-                }
-            );
-
-        }
-
-    }
-
-
-    /* ================================
-       4. PRONUNCIATION
-    ================================= */
-
-    const pronunciationData =
-        await getPronunciations(
-            lookupWordUsed
+        setStatus(
+            "Word found, but no usable definition was returned. Try Google."
         );
 
-
-    let ipa = "";
-
-    let audioURL = "";
-
-
-    if(
-        pronunciationData
-    ){
-
-        const sounds =
-            pronunciationData.sounds ||
-            pronunciationData.pronunciations ||
-            pronunciationData.entries ||
-            [];
-
-
-        if(Array.isArray(sounds)){
-
-            for(
-                const sound of sounds
-            ){
-
-                if(
-                    !ipa &&
-                    sound.ipa
-                ){
-
-                    ipa =
-                        sound.ipa;
-
-                }
-
-
-                if(
-                    !audioURL &&
-                    sound.audio
-                ){
-
-                    audioURL =
-                        sound.audio;
-
-                }
-
-
-                if(
-                    !audioURL &&
-                    sound.audio_url
-                ){
-
-                    audioURL =
-                        sound.audio_url;
-
-                }
-
-            }
-
-        }
+        return;
 
     }
 
 
-    /* ================================
-       5. FALLBACK TO FULL ENTRY SOUNDS
-    ================================= */
+    /* =====================================================
+       PRONUNCIATION
+    ===================================================== */
+
+    let pronunciation =
+        "";
+
 
     if(
-        entry &&
-        entry.sounds
+        entry.sounds &&
+        Array.isArray(entry.sounds)
     ){
 
         for(
@@ -1109,23 +881,13 @@ async function lookupWord(){
         ){
 
             if(
-                !ipa &&
                 sound.ipa
             ){
 
-                ipa =
+                pronunciation =
                     sound.ipa;
 
-            }
-
-
-            if(
-                !audioURL &&
-                sound.audio
-            ){
-
-                audioURL =
-                    sound.audio;
+                break;
 
             }
 
@@ -1134,62 +896,42 @@ async function lookupWord(){
     }
 
 
-    /* ================================
-       IF NOTHING FOUND
-    ================================= */
-
-    if(
-        !definitionText
-    ){
-
-        setStatus(
-            "I couldn't find a reliable definition for \"" +
-            word +
-            "\". Try Google Meaning."
-        );
-
-
-        $("result").style.display =
-            "none";
-
-
-        return;
-
-    }
-
-
-    /* ================================
-       SHOW RESULT
-    ================================= */
+    /* =====================================================
+       CURRENT WORD OBJECT
+    ===================================================== */
 
     currentWord = {
 
         word:
-            lookupWordUsed,
+            originalWord,
 
-        originalWord:
-            word,
+        lookupWord:
+            lookupWord,
 
         partOfSpeech:
             partOfSpeech,
 
+        pronunciation:
+            pronunciation,
+
         definition:
-            definitionText,
+            definition,
 
         example:
-            exampleText,
+            example,
 
-        pronunciation:
-            ipa,
-
-        audio:
-            audioURL
+        created:
+            new Date().toISOString()
 
     };
 
 
+    /* =====================================================
+       DISPLAY
+    ===================================================== */
+
     $("resultWord").textContent =
-        word;
+        originalWord;
 
 
     $("resultPart").textContent =
@@ -1199,19 +941,19 @@ async function lookupWord(){
 
 
     $("resultPronunciation").textContent =
-        ipa
-        ? "🔤 " + ipa
-        : "Pronunciation unavailable";
+        pronunciation
+        ? "🔤 " + pronunciation
+        : "🔤 Pronunciation unavailable";
 
 
     $("resultDefinition").innerHTML =
         "<strong>Meaning</strong><br>" +
         escapeHTML(
-            definitionText
+            definition
         );
 
 
-    if(exampleText){
+    if(example){
 
         $("resultExample").style.display =
             "block";
@@ -1220,7 +962,7 @@ async function lookupWord(){
         $("resultExample").innerHTML =
             "<strong>Example</strong><br>" +
             escapeHTML(
-                exampleText
+                example
             );
 
     }
@@ -1233,109 +975,135 @@ async function lookupWord(){
     }
 
 
-    if(audioURL){
-
-        $("listenButton").style.display =
-            "inline-block";
-
-    }
-
-    else{
-
-        $("listenButton").style.display =
-            "inline-block";
-
-    }
-
-
     $("result").style.display =
         "block";
 
 
     setStatus(
-        "✅ Meaning found. Check it and save it to your vocabulary."
+        "✅ Meaning found. You can listen and save it."
     );
 
 }
 
 
-/* =========================================
-   PRONUNCIATION
-========================================= */
+/* =========================================================
+   TEXT-TO-SPEECH
+   PRIMARY LISTEN FEATURE
+========================================================= */
 
-function playPronunciation(){
+function speakText(text){
 
     if(
-        currentWord &&
-        currentWord.audio
+        !("speechSynthesis" in window)
     ){
 
-        try{
+        setStatus(
+            "Your browser doesn't support speech pronunciation."
+        );
 
-            if(currentAudio){
-
-                currentAudio.pause();
-
-            }
-
-
-            currentAudio =
-                new Audio(
-                    currentWord.audio
-                );
-
-
-            currentAudio.play();
-
-
-            return;
-
-        }
-
-        catch(error){
-
-        }
+        return;
 
     }
+
+
+    speechSynthesis.cancel();
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(
+            text
+        );
 
 
     /*
-       Browser speech fallback.
+       English pronunciation
     */
 
-    if(
-        currentWord &&
-        currentWord.word
-    ){
+    utterance.lang =
+        "en-US";
 
-        const utterance =
-            new SpeechSynthesisUtterance(
-                currentWord.word
+
+    /*
+       Slightly slower so
+       pronunciation is clear.
+    */
+
+    utterance.rate =
+        0.72;
+
+
+    utterance.pitch =
+        1;
+
+
+    utterance.volume =
+        1;
+
+
+    utterance.onstart =
+        function(){
+
+            setStatus(
+                "🔊 Pronouncing..."
             );
 
-
-        utterance.lang =
-            "en-US";
+        };
 
 
-        utterance.rate =
-            0.75;
+    utterance.onend =
+        function(){
+
+            setStatus(
+                "Pronunciation finished."
+            );
+
+        };
 
 
-        speechSynthesis.cancel();
+    utterance.onerror =
+        function(){
 
-        speechSynthesis.speak(
-            utterance
-        );
+            setStatus(
+                "Couldn't play pronunciation. Try again."
+            );
 
-    }
+        };
+
+
+    speechSynthesis.speak(
+        utterance
+    );
 
 }
 
 
-/* =========================================
-   SAVE CURRENT WORD
-========================================= */
+/* =========================================================
+   LISTEN CURRENT WORD
+========================================================= */
+
+function speakCurrentWord(){
+
+    if(!currentWord){
+
+        setStatus(
+            "Search for a word first."
+        );
+
+        return;
+
+    }
+
+
+    speakText(
+        currentWord.word
+    );
+
+}
+
+
+/* =========================================================
+   SAVE WORD
+========================================================= */
 
 function saveCurrentWord(){
 
@@ -1356,7 +1124,7 @@ function saveCurrentWord(){
 
                 return (
                     item.word.toLowerCase() ===
-                    currentWord.originalWord.toLowerCase()
+                    currentWord.word.toLowerCase()
                 );
 
             }
@@ -1365,20 +1133,17 @@ function saveCurrentWord(){
 
     if(existing){
 
-        existing.definition =
-            currentWord.definition;
-
         existing.partOfSpeech =
             currentWord.partOfSpeech;
 
         existing.pronunciation =
             currentWord.pronunciation;
 
+        existing.definition =
+            currentWord.definition;
+
         existing.example =
             currentWord.example;
-
-        existing.audio =
-            currentWord.audio;
 
         existing.updated =
             new Date().toISOString();
@@ -1398,10 +1163,7 @@ function saveCurrentWord(){
                 Date.now().toString(),
 
             word:
-                currentWord.originalWord,
-
-            definition:
-                currentWord.definition,
+                currentWord.word,
 
             partOfSpeech:
                 currentWord.partOfSpeech,
@@ -1409,11 +1171,11 @@ function saveCurrentWord(){
             pronunciation:
                 currentWord.pronunciation,
 
+            definition:
+                currentWord.definition,
+
             example:
                 currentWord.example,
-
-            audio:
-                currentWord.audio,
 
             created:
                 new Date().toISOString()
@@ -1441,9 +1203,9 @@ function saveCurrentWord(){
 }
 
 
-/* =========================================
-   GOOGLE
-========================================= */
+/* =========================================================
+   GOOGLE SEARCH
+========================================================= */
 
 function googleSearch(){
 
@@ -1465,153 +1227,19 @@ function googleSearch(){
 
 
     window.open(
-
         "https://www.google.com/search?q=" +
         encodeURIComponent(
             word + " meaning"
         ),
-
         "_blank"
-
     );
 
 }
 
 
-/* =========================================
-   PLAY SAVED WORD
-========================================= */
-
-window.playSavedPronunciation =
-function(id){
-
-    const item =
-        savedWords.find(
-            function(x){
-                return x.id === id;
-            }
-        );
-
-
-    if(!item){
-        return;
-    }
-
-
-    if(item.audio){
-
-        const audio =
-            new Audio(
-                item.audio
-            );
-
-        audio.play();
-
-        return;
-
-    }
-
-
-    const utterance =
-        new SpeechSynthesisUtterance(
-            item.word
-        );
-
-
-    utterance.lang =
-        "en-US";
-
-    utterance.rate =
-        0.75;
-
-
-    speechSynthesis.cancel();
-
-    speechSynthesis.speak(
-        utterance
-    );
-
-};
-
-
-/* =========================================
-   DELETE WORD
-========================================= */
-
-window.deleteWord =
-function(id){
-
-    if(
-        !confirm(
-            "Delete this word?"
-        )
-    ){
-
-        return;
-
-    }
-
-
-    savedWords =
-        savedWords.filter(
-            function(item){
-
-                return item.id !== id;
-
-            }
-        );
-
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-            savedWords
-        )
-    );
-
-
-    renderSavedWords();
-
-};
-
-
-/* =========================================
-   GOOGLE SAVED WORD
-========================================= */
-
-window.googleSavedWord =
-function(id){
-
-    const item =
-        savedWords.find(
-            function(x){
-                return x.id === id;
-            }
-        );
-
-
-    if(!item){
-        return;
-    }
-
-
-    window.open(
-
-        "https://www.google.com/search?q=" +
-        encodeURIComponent(
-            item.word + " meaning"
-        ),
-
-        "_blank"
-
-    );
-
-};
-
-
-/* =========================================
-   SEARCH SAVED WORDS
-========================================= */
+/* =========================================================
+   SAVED WORD LIST
+========================================================= */
 
 function renderSavedWords(){
 
@@ -1677,6 +1305,7 @@ function renderSavedWords(){
 
 
     $("savedList").innerHTML =
+
         filtered
         .map(
             function(item){
@@ -1693,7 +1322,9 @@ function renderSavedWords(){
                         item.partOfSpeech
                         ?
                         `<div class="meta">
-                            ${escapeHTML(item.partOfSpeech)}
+                            ${escapeHTML(
+                                item.partOfSpeech
+                            )}
                         </div>`
                         :
                         ""
@@ -1703,21 +1334,28 @@ function renderSavedWords(){
                         item.pronunciation
                         ?
                         `<div class="saved-pronunciation">
-                            🔤 ${escapeHTML(item.pronunciation)}
+                            🔤 ${escapeHTML(
+                                item.pronunciation
+                            )}
                         </div>`
                         :
                         ""
                     }
 
                     <div class="saved-definition">
-                        ${escapeHTML(item.definition)}
+                        ${escapeHTML(
+                            item.definition
+                        )}
                     </div>
 
                     ${
                         item.example
                         ?
                         `<div class="saved-example">
-                            Example: ${escapeHTML(item.example)}
+                            Example:
+                            ${escapeHTML(
+                                item.example
+                            )}
                         </div>`
                         :
                         ""
@@ -1727,20 +1365,26 @@ function renderSavedWords(){
 
                         <button
                         class="audio"
-                        onclick="playSavedPronunciation('${item.id}')"
+                        onclick="speakText(
+                            ${JSON.stringify(item.word)}
+                        )"
                         >
                         🔊 Listen
                         </button>
 
                         <button
-                        onclick="googleSavedWord('${item.id}')"
+                        onclick="googleSavedWord(
+                            '${item.id}'
+                        )"
                         >
                         🔎 Google
                         </button>
 
                         <button
                         class="danger"
-                        onclick="deleteWord('${item.id}')"
+                        onclick="deleteWord(
+                            '${item.id}'
+                        )"
                         >
                         Delete
                         </button>
@@ -1748,12 +1392,10 @@ function renderSavedWords(){
                     </div>
 
                     <div class="meta">
-
                         Saved:
-                        ${new Date(
+                        ${formatDate(
                             item.created
-                        ).toLocaleString()}
-
+                        )}
                     </div>
 
                 </div>
@@ -1767,16 +1409,189 @@ function renderSavedWords(){
 }
 
 
-/* =========================================
-   EXPORT
-========================================= */
+/* =========================================================
+   DATE
+========================================================= */
 
-function exportWords(){
+function formatDate(dateString){
 
-    if(!savedWords.length){
+    if(!dateString){
+        return "";
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DELETE WORD
+========================================================= */
+
+window.deleteWord =
+function(id){
+
+    if(
+        !confirm(
+            "Delete this word?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    savedWords =
+        savedWords.filter(
+            function(item){
+
+                return item.id !== id;
+
+            }
+        );
+
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+            savedWords
+        )
+    );
+
+
+    renderSavedWords();
+
+};
+
+
+/* =========================================================
+   GOOGLE SAVED WORD
+========================================================= */
+
+window.googleSavedWord =
+function(id){
+
+    const item =
+        savedWords.find(
+            function(x){
+
+                return x.id === id;
+
+            }
+        );
+
+
+    if(!item){
+        return;
+    }
+
+
+    window.open(
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(
+            item.word + " meaning"
+        ),
+        "_blank"
+    );
+
+};
+
+
+/* =========================================================
+   DELETE ALL
+========================================================= */
+
+function deleteAllWords(){
+
+    if(
+        savedWords.length === 0
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+            "Delete all saved vocabulary? This cannot be undone."
+        )
+    ){
+
+        return;
+
+    }
+
+
+    savedWords = [];
+
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+            savedWords
+        )
+    );
+
+
+    renderSavedWords();
+
+}
+
+
+/* =========================================================
+   CSV ESCAPE
+========================================================= */
+
+function csvEscape(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return '""';
+
+    }
+
+
+    const text =
+        String(value)
+        .replace(/"/g,'""');
+
+
+    return '"' +
+        text +
+        '"';
+
+}
+
+
+/* =========================================================
+   CSV EXPORT
+========================================================= */
+
+function exportCSV(){
+
+    if(
+        savedWords.length === 0
+    ){
 
         alert(
-            "There are no saved words."
+            "There are no saved words to export."
         );
 
         return;
@@ -1784,17 +1599,92 @@ function exportWords(){
     }
 
 
+    /*
+       CSV columns
+    */
+
+    const headers = [
+
+        "Word",
+
+        "Part of Speech",
+
+        "Pronunciation",
+
+        "Meaning",
+
+        "Example",
+
+        "Date Saved"
+
+    ];
+
+
+    const rows = [
+        headers
+    ];
+
+
+    savedWords.forEach(
+        function(item){
+
+            rows.push([
+
+                item.word || "",
+
+                item.partOfSpeech || "",
+
+                item.pronunciation || "",
+
+                item.definition || "",
+
+                item.example || "",
+
+                formatDate(
+                    item.created
+                )
+
+            ]);
+
+        }
+    );
+
+
+    /*
+       Convert to CSV
+    */
+
+    const csv =
+        rows
+        .map(
+            function(row){
+
+                return row
+                .map(csvEscape)
+                .join(",");
+
+            }
+        )
+        .join("\r\n");
+
+
+    /*
+       UTF-8 BOM helps Excel
+       correctly recognize UTF-8.
+    */
+
+    const BOM =
+        "\uFEFF";
+
+
     const blob =
         new Blob(
             [
-                JSON.stringify(
-                    savedWords,
-                    null,
-                    2
-                )
+                BOM + csv
             ],
             {
-                type:"application/json"
+                type:
+                "text/csv;charset=utf-8;"
             }
         );
 
@@ -1814,61 +1704,37 @@ function exportWords(){
 
 
     link.download =
-        "my-vocabulary.json";
+        "my-vocabulary.csv";
+
+
+    document.body.appendChild(
+        link
+    );
 
 
     link.click();
+
+
+    document.body.removeChild(
+        link
+    );
 
 
     URL.revokeObjectURL(
         url
     );
 
-}
 
-
-/* =========================================
-   DELETE ALL
-========================================= */
-
-function deleteAllWords(){
-
-    if(
-        !savedWords.length
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        confirm(
-            "Delete all saved words? This cannot be undone."
-        )
-    ){
-
-        savedWords = [];
-
-
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(
-                savedWords
-            )
-        );
-
-
-        renderSavedWords();
-
-    }
+    setStatus(
+        "📊 Vocabulary CSV downloaded successfully."
+    );
 
 }
 
 
-/* =========================================
+/* =========================================================
    INITIALIZE
-========================================= */
+========================================================= */
 
 renderSavedWords();
 
