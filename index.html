@@ -3,200 +3,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Speak & Save Dictionary</title>
-
 <style>
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-body{
-    margin:0;
-    background:#f4f6fb;
-    color:#172033;
-    font-family:Arial,Helvetica,sans-serif;
+html {
+    scroll-behavior: smooth;
 }
 
-.container{
-    max-width:900px;
-    margin:auto;
-    padding:15px;
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #f8f9fc 0%, #f4f6fb 100%);
+    color: #172033;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
 }
 
-.hero{
-    background:linear-gradient(135deg,#2563eb,#7c3aed);
-    color:white;
-    padding:24px;
-    border-radius:20px;
-    margin-bottom:16px;
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.hero h1{
-    margin:0 0 7px;
+.hero {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    color: white;
+    padding: 32px 24px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
 }
 
-.hero p{
-    margin:0;
-    opacity:.9;
+.hero h1 {
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
-.card{
-    background:white;
-    padding:18px;
-    border-radius:16px;
-    margin-bottom:16px;
-    box-shadow:0 4px 18px rgba(0,0,0,.06);
+.hero p {
+    margin: 0;
+    opacity: 0.95;
+    font-size: 15px;
 }
 
-.row{
-    display:flex;
-    gap:9px;
-    flex-wrap:wrap;
+.card {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
-input{
-    flex:1;
-    min-width:200px;
-    padding:13px;
-    border:1px solid #d0d5dd;
-    border-radius:10px;
-    font-size:16px;
+.row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
 
-button{
-    border:0;
-    border-radius:10px;
-    padding:12px 15px;
-    font-weight:bold;
-    cursor:pointer;
-    background:#e8edff;
-    color:#17337c;
+input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 16px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-button.primary{
-    background:#2563eb;
-    color:white;
+input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-button.audio{
-    background:#111827;
-    color:white;
+input::placeholder {
+    color: #a8adb5;
 }
 
-button.danger{
-    background:#fee2e2;
-    color:#991b1b;
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    background: #f0f3f8;
+    color: #2563eb;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-#status{
-    margin-top:10px;
-    color:#667085;
-    font-size:14px;
-    min-height:20px;
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.result{
-    margin-top:15px;
-    border:1px solid #e5e7eb;
-    border-radius:14px;
-    padding:16px;
-    display:none;
+button:active {
+    transform: translateY(0);
 }
 
-.result-word{
-    font-size:28px;
-    font-weight:700;
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.part{
-    color:#667085;
-    font-style:italic;
-    margin-top:3px;
+button.primary {
+    background: #2563eb;
+    color: white;
 }
 
-.pronunciation{
-    margin-top:10px;
-    font-size:18px;
-    font-weight:bold;
+button.primary:hover {
+    background: #1d4ed8;
 }
 
-.definition{
-    margin-top:15px;
-    line-height:1.6;
+button.audio {
+    background: #111827;
+    color: white;
 }
 
-.example{
-    margin-top:12px;
-    padding:12px;
-    background:#f8fafc;
-    border-left:4px solid #2563eb;
-    line-height:1.5;
+button.audio:hover {
+    background: #000;
 }
 
-.saved-item{
-    border:1px solid #e5e7eb;
-    border-radius:13px;
-    padding:14px;
-    margin-top:10px;
+button.danger {
+    background: #fee2e2;
+    color: #991b1b;
 }
 
-.saved-word{
-    font-size:21px;
-    font-weight:bold;
+button.danger:hover {
+    background: #fecaca;
 }
 
-.saved-pronunciation{
-    color:#667085;
-    margin-top:4px;
+#status {
+    margin-top: 12px;
+    padding: 12px;
+    color: #475467;
+    font-size: 14px;
+    min-height: 20px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border-left: 3px solid #2563eb;
+    animation: slideIn 0.3s ease-out;
 }
 
-.saved-definition{
-    margin-top:8px;
-    line-height:1.55;
+#status.error {
+    border-left-color: #dc2626;
+    background: #fee2e2;
+    color: #991b1b;
 }
 
-.saved-example{
-    margin-top:8px;
-    color:#475467;
-    font-style:italic;
+#status.success {
+    border-left-color: #16a34a;
+    background: #f0fdf4;
+    color: #166534;
 }
 
-.meta{
-    color:#667085;
-    font-size:12px;
-    margin-top:6px;
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.actions{
-    display:flex;
-    gap:6px;
-    flex-wrap:wrap;
-    margin-top:10px;
+.result {
+    margin-top: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+    display: none;
+    background: #fafbfc;
+    animation: slideIn 0.3s ease-out;
 }
 
-.count{
-    color:#667085;
-    font-size:14px;
+.result.show {
+    display: block;
 }
 
-@media(max-width:600px){
+.result-word {
+    font-size: 32px;
+    font-weight: 700;
+    color: #172033;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+}
 
-    .container{
-        padding:10px;
+.part {
+    color: #667085;
+    font-style: italic;
+    margin-top: 2px;
+    font-size: 14px;
+}
+
+.pronunciation {
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.definition {
+    margin-top: 16px;
+    line-height: 1.7;
+    color: #344054;
+}
+
+.definition strong {
+    color: #172033;
+    font-weight: 600;
+}
+
+.example {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    line-height: 1.6;
+    font-size: 14px;
+    border-radius: 4px;
+    display: none;
+    color: #475467;
+}
+
+.example.show {
+    display: block;
+}
+
+.example strong {
+    color: #172033;
+}
+
+.saved-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 12px;
+    transition: all 0.2s;
+    background: white;
+}
+
+.saved-item:hover {
+    border-color: #2563eb;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+}
+
+.saved-word {
+    font-size: 20px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.saved-pronunciation {
+    color: #667085;
+    margin-top: 4px;
+    font-size: 13px;
+}
+
+.saved-definition {
+    margin-top: 10px;
+    line-height: 1.6;
+    color: #344054;
+    font-size: 14px;
+}
+
+.saved-example {
+    margin-top: 10px;
+    color: #667085;
+    font-style: italic;
+    font-size: 13px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-radius: 4px;
+}
+
+.meta {
+    color: #999;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.count {
+    color: #667085;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0;
+}
+
+.header-row h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.empty-state {
+    text-align: center;
+    color: #a8adb5;
+    padding: 40px 20px;
+    font-size: 15px;
+}
+
+.empty-state svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+}
+
+.loading {
+    display: inline-block;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 12px;
     }
 
-    .hero{
-        padding:20px;
+    .hero {
+        padding: 24px 20px;
     }
 
-    .row{
-        flex-direction:column;
+    .hero h1 {
+        font-size: 24px;
+    }
+
+    .card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .row {
+        flex-direction: column;
     }
 
     input,
-    button{
-        width:100%;
+    button {
+        width: 100%;
+    }
+
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .result-word {
+        font-size: 24px;
+    }
+
+    .actions button {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 </style>
@@ -206,1537 +404,763 @@ button.danger{
 
 <div class="container">
 
-<div class="hero">
-    <h1>🎙️ Speak & Save Dictionary</h1>
-    <p>
-        Speak a word → get meaning → pronunciation → example → save it.
-    </p>
-</div>
-
-
-<!-- LOOKUP -->
-
-<div class="card">
-
-    <div class="row">
-
-        <input
-            id="wordInput"
-            placeholder="Speak or type a word..."
-            autocomplete="off"
-        >
-
-        <button
-            class="primary"
-            onclick="startSpeech()"
-        >
-            🎙️ Speak
-        </button>
-
-        <button
-            onclick="lookupWord()"
-        >
-            🔎 Search
-        </button>
-
-        <button
-            onclick="googleSearch()"
-        >
-            Google
-        </button>
-
+    <!-- HERO -->
+    <div class="hero">
+        <h1>🎙️ Speak & Save Dictionary</h1>
+        <p>Speak a word → get meaning → save it. Build your vocabulary with voice.</p>
     </div>
 
-
-    <div id="status">
-        Ready. Tap Speak and say an English word.
-    </div>
-
-
-    <div
-        id="result"
-        class="result"
-    >
-
-        <div
-            id="resultWord"
-            class="result-word"
-        ></div>
-
-
-        <div
-            id="resultPart"
-            class="part"
-        ></div>
-
-
-        <div
-            id="resultPronunciation"
-            class="pronunciation"
-        ></div>
-
-
-        <div class="actions">
-
-            <button
-                class="audio"
-                onclick="speakCurrentWord()"
+    <!-- LOOKUP SECTION -->
+    <div class="card">
+        <div class="row">
+            <input
+                id="wordInput"
+                placeholder="Speak or type a word..."
+                autocomplete="off"
+                aria-label="Word input"
             >
-                🔊 Listen
+            <button class="primary" onclick="startSpeech()" id="speakBtn">
+                🎙️ Speak
             </button>
-
+            <button onclick="lookupWord()" id="searchBtn">
+                🔎 Search
+            </button>
+            <button onclick="googleSearch()">
+                🔍 Google
+            </button>
         </div>
 
+        <div id="status">Ready. Tap Speak and say an English word.</div>
 
-        <div
-            id="resultDefinition"
-            class="definition"
-        ></div>
+        <div id="result" class="result">
+            <div id="resultWord" class="result-word"></div>
+            <div id="resultPart" class="part"></div>
+            <div id="resultPronunciation" class="pronunciation"></div>
 
+            <div class="actions">
+                <button class="audio" onclick="speakCurrentWord()">
+                    🔊 Listen
+                </button>
+            </div>
 
-        <div
-            id="resultExample"
-            class="example"
-            style="display:none"
-        ></div>
+            <div id="resultDefinition" class="definition"></div>
+            <div id="resultExample" class="example"></div>
 
+            <div class="actions">
+                <button class="primary" onclick="saveCurrentWord()">
+                    💾 Save Word
+                </button>
+            </div>
+        </div>
+    </div>
 
-        <div class="actions">
-
-            <button
-                class="primary"
-                onclick="saveCurrentWord()"
-            >
-                💾 Save Word
-            </button>
-
+    <!-- SAVED VOCABULARY SECTION -->
+    <div class="card">
+        <div class="header-row">
+            <h2>📚 My Vocabulary</h2>
+            <span id="count" class="count">0 words</span>
         </div>
 
+        <div class="row" style="margin-top: 16px;">
+            <input
+                id="filterInput"
+                placeholder="Search saved words..."
+                oninput="debounceRender()"
+                aria-label="Filter saved words"
+            >
+            <button onclick="exportCSV()">
+                📊 Export
+            </button>
+            <button onclick="deleteAllWords()" class="danger">
+                Delete All
+            </button>
+        </div>
+
+        <div id="savedList"></div>
     </div>
 
 </div>
-
-
-
-<!-- SAVED WORDS -->
-
-<div class="card">
-
-    <div
-        style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:10px;
-        "
-    >
-
-        <h2 style="margin:0">
-            📚 My Vocabulary
-        </h2>
-
-        <span
-            id="count"
-            class="count"
-        >
-            0 words
-        </span>
-
-    </div>
-
-
-    <div
-        class="row"
-        style="margin-top:12px"
-    >
-
-        <input
-            id="filterInput"
-            placeholder="Search saved words..."
-            oninput="renderSavedWords()"
-        >
-
-        <button
-            onclick="exportCSV()"
-        >
-            📊 Download CSV
-        </button>
-
-        <button
-            onclick="deleteAllWords()"
-            class="danger"
-        >
-            Delete All
-        </button>
-
-    </div>
-
-
-    <div id="savedList"></div>
-
-</div>
-
-</div>
-
-
 
 <script>
 
 /* =========================================================
-   STORAGE
+   CONFIGURATION
 ========================================================= */
 
-const STORAGE_KEY =
-"speak-save-dictionary-v4";
-
-
-let savedWords =
-JSON.parse(
-localStorage.getItem(STORAGE_KEY) || "[]"
-);
-
-
-let currentWord = null;
-
+const CONFIG = {
+    STORAGE_KEY: "speak-save-dictionary-v5",
+    API_TIMEOUT: 8000,
+    DEBOUNCE_DELAY: 300,
+    SPEECH_LANG: "en-US",
+    SPEECH_RATE: 0.85,
+    MAX_DEFINITIONS: 3,
+    MAX_SAVED_WORDS: 500
+};
 
 /* =========================================================
-   HELPER
+   STATE MANAGEMENT
 ========================================================= */
 
-function $(id){
+let savedWords = [];
+let currentWord = null;
+let renderTimeout = null;
+let speechRecognitionActive = false;
+
+// Load from localStorage safely
+try {
+    const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
+    savedWords = stored ? JSON.parse(stored) : [];
+    if (!Array.isArray(savedWords)) {
+        savedWords = [];
+    }
+} catch (error) {
+    console.error("LocalStorage read error:", error);
+    setStatus("Warning: Could not load saved words.", "error");
+    savedWords = [];
+}
+
+/* =========================================================
+   HELPER UTILITIES
+========================================================= */
+
+function $(id) {
     return document.getElementById(id);
 }
 
-
-function setStatus(message){
-    $("status").textContent = message;
+function setStatus(message, type = "") {
+    const status = $("status");
+    status.textContent = message;
+    status.className = type ? `${type}` : "";
+    
+    // Remove error/success classes after 5 seconds for success messages
+    if (type === "success") {
+        setTimeout(() => {
+            if (status.className === "success") {
+                status.className = "";
+            }
+        }, 4000);
+    }
 }
 
+function escapeHTML(text) {
+    if (!text) return "";
+    
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    
+    return String(text).replace(/[&<>"']/g, char => map[char]);
+}
 
-function escapeHTML(text){
+function debounceRender() {
+    clearTimeout(renderTimeout);
+    renderTimeout = setTimeout(() => {
+        renderSavedWords();
+    }, CONFIG.DEBOUNCE_DELAY);
+}
 
-    if(!text){
+function formatDate(dateString) {
+    if (!dateString) return "";
+    
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+    } catch {
         return "";
     }
-
-    return String(text)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
 }
 
+async function fetchWithTimeout(url, timeout = CONFIG.API_TIMEOUT) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(id);
+        return response;
+    } catch (error) {
+        clearTimeout(id);
+        throw error;
+    }
+}
 
 /* =========================================================
    SPEECH RECOGNITION
 ========================================================= */
 
-function startSpeech(){
+function startSpeech() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-    const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
-
-
-    if(!SpeechRecognition){
-
-        setStatus(
-            "Speech recognition is not supported. Use Chrome on Android."
-        );
-
+    if (!SpeechRecognition) {
+        setStatus("Speech recognition not supported. Try Chrome, Edge, or Safari.", "error");
         return;
     }
 
+    if (speechRecognitionActive) {
+        setStatus("Already listening. Please wait.", "error");
+        return;
+    }
 
-    const recognition =
-        new SpeechRecognition();
+    const recognition = new SpeechRecognition();
+    speechRecognitionActive = true;
+    $("speakBtn").disabled = true;
 
-
-    recognition.lang = "en-IN";
-
+    recognition.lang = CONFIG.SPEECH_LANG;
     recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-    recognition.maxAlternatives = 3;
+    setStatus("🎙️ Listening... speak now.", "");
 
+    recognition.onresult = function(event) {
+        try {
+            let spokenWord = event.results[0][0].transcript.trim();
+            spokenWord = spokenWord.replace(/[.,!?;:]$/, "");
 
-    setStatus(
-        "🎙️ Listening... speak now."
-    );
-
-
-    recognition.onresult =
-        function(event){
-
-            let spokenWord =
-                event
-                .results[0][0]
-                .transcript
-                .trim();
-
-
-            spokenWord =
-                spokenWord
-                .replace(/[.,!?]$/,"");
-
-
-            $("wordInput").value =
-                spokenWord;
-
-
-            lookupWord();
-
-        };
-
-
-    recognition.onerror =
-        function(event){
-
-            setStatus(
-                "Microphone error: " +
-                event.error
-            );
-
-        };
-
-
-    try{
-
-        recognition.start();
-
-    }
-
-    catch(error){
-
-        setStatus(
-            "Unable to start microphone. Try again."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   WIKTAPI
-========================================================= */
-
-async function getWiktEntry(word){
-
-    const url =
-        "https://api.wiktapi.dev/v1/en/word/" +
-        encodeURIComponent(word);
-
-
-    try{
-
-        const response =
-            await fetch(url);
-
-
-        if(!response.ok){
-            return null;
-        }
-
-
-        return await response.json();
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================================
-   SEARCH FALLBACK
-========================================================= */
-
-async function searchWikt(word){
-
-    const url =
-        "https://api.wiktapi.dev/v1/en/search?q=" +
-        encodeURIComponent(word);
-
-
-    try{
-
-        const response =
-            await fetch(url);
-
-
-        if(!response.ok){
-            return null;
-        }
-
-
-        return await response.json();
-
-    }
-
-    catch(error){
-
-        return null;
-
-    }
-
-}
-
-
-/* =========================================================
-   GET ENTRY
-========================================================= */
-
-function chooseEntry(data){
-
-    if(!data){
-        return null;
-    }
-
-
-    if(
-        data.entries &&
-        Array.isArray(data.entries)
-    ){
-
-        return data.entries.find(
-            function(entry){
-
-                return (
-                    !entry.lang_code ||
-                    entry.lang_code === "en"
-                );
-
+            if (!spokenWord) {
+                setStatus("No speech detected. Please try again.", "error");
+                return;
             }
-        ) || data.entries[0];
 
+            $("wordInput").value = spokenWord;
+            lookupWord();
+        } catch (error) {
+            console.error("Speech processing error:", error);
+            setStatus("Error processing speech. Try again.", "error");
+        }
+    };
+
+    recognition.onerror = function(event) {
+        const errorMessages = {
+            'network': 'Network error. Check internet connection.',
+            'audio': 'Microphone error. Check permissions.',
+            'no-speech': 'No speech detected. Try again.',
+            'aborted': 'Speech recognition stopped.'
+        };
+        
+        const message = errorMessages[event.error] || `Microphone error: ${event.error}`;
+        setStatus(message, "error");
+    };
+
+    recognition.onend = function() {
+        speechRecognitionActive = false;
+        $("speakBtn").disabled = false;
+    };
+
+    try {
+        recognition.start();
+    } catch (error) {
+        console.error("Speech recognition start error:", error);
+        setStatus("Unable to start microphone. Try again.", "error");
+        speechRecognitionActive = false;
+        $("speakBtn").disabled = false;
     }
+}
 
+/* =========================================================
+   DICTIONARY API INTEGRATION
+========================================================= */
+
+async function getWiktEntry(word) {
+    try {
+        const url = "https://api.wiktapi.dev/v1/en/word/" + encodeURIComponent(word);
+        const response = await fetchWithTimeout(url);
+
+        if (!response.ok) {
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.warn("Wikt API error:", error);
+        return null;
+    }
+}
+
+async function searchWikt(word) {
+    try {
+        const url = "https://api.wiktapi.dev/v1/en/search?q=" + encodeURIComponent(word);
+        const response = await fetchWithTimeout(url);
+
+        if (!response.ok) {
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.warn("Wikt search error:", error);
+        return null;
+    }
+}
+
+function chooseEntry(data) {
+    if (!data) return null;
+
+    if (data.entries && Array.isArray(data.entries)) {
+        return data.entries.find(entry => !entry.lang_code || entry.lang_code === "en") || data.entries[0];
+    }
 
     return null;
-
 }
 
-
 /* =========================================================
-   LOOKUP
+   WORD LOOKUP
 ========================================================= */
 
-async function lookupWord(){
+async function lookupWord() {
+    const originalWord = $("wordInput").value.trim();
 
-    const originalWord =
-        $("wordInput")
-        .value
-        .trim();
-
-
-    if(!originalWord){
-
-        setStatus(
-            "Please speak or type a word first."
-        );
-
+    if (!originalWord) {
+        setStatus("Please speak or type a word first.", "error");
         return;
-
     }
 
+    if (originalWord.length > 50) {
+        setStatus("Word is too long. Please try a shorter word.", "error");
+        return;
+    }
 
-    $("result").style.display =
-        "none";
-
-
-    setStatus(
-        "🔎 Looking up \"" +
-        originalWord +
-        "\"..."
-    );
-
+    $("result").classList.remove("show");
+    $("searchBtn").disabled = true;
+    setStatus(`🔎 Looking up "${escapeHTML(originalWord)}"...`);
 
     currentWord = null;
 
+    try {
+        let lookupWord = originalWord;
+        let data = await getWiktEntry(lookupWord);
+        let entry = chooseEntry(data);
 
-    let lookupWord =
-        originalWord;
+        // Fallback: search if exact match fails
+        if (!entry) {
+            const search = await searchWikt(originalWord);
 
+            if (search?.results?.length > 0) {
+                const candidate = search.results[0].word;
 
-    let data =
-        await getWiktEntry(
-            lookupWord
-        );
-
-
-    let entry =
-        chooseEntry(data);
-
-
-    /*
-       If exact word doesn't work,
-       search WiktApi.
-    */
-
-    if(!entry){
-
-        const search =
-            await searchWikt(
-                originalWord
-            );
-
-
-        if(
-            search &&
-            search.results &&
-            search.results.length
-        ){
-
-            const candidate =
-                search.results[0].word;
-
-
-            if(candidate){
-
-                lookupWord =
-                    candidate;
-
-
-                data =
-                    await getWiktEntry(
-                        lookupWord
-                    );
-
-
-                entry =
-                    chooseEntry(data);
-
+                if (candidate) {
+                    lookupWord = candidate;
+                    data = await getWiktEntry(lookupWord);
+                    entry = chooseEntry(data);
+                }
             }
-
         }
 
-    }
-
-
-    if(!entry){
-
-        setStatus(
-            "Couldn't find the definition. Try Google."
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       PART OF SPEECH
-    ===================================================== */
-
-    const partOfSpeech =
-        entry.pos ||
-        "";
-
-
-    /* =====================================================
-       DEFINITIONS
-    ===================================================== */
-
-    let definitions = [];
-
-    let examples = [];
-
-
-    if(
-        entry.senses &&
-        Array.isArray(entry.senses)
-    ){
-
-        entry.senses
-        .forEach(
-            function(sense){
-
-                if(
-                    sense.glosses &&
-                    sense.glosses.length
-                ){
-
-                    sense.glosses
-                    .forEach(
-                        function(gloss){
-
-                            if(
-                                !definitions.includes(
-                                    gloss
-                                )
-                            ){
-
-                                definitions.push(
-                                    gloss
-                                );
-
-                            }
-
-                        }
-                    );
-
-                }
-
-
-                if(
-                    sense.examples &&
-                    sense.examples.length
-                ){
-
-                    sense.examples
-                    .forEach(
-                        function(example){
-
-                            let text = "";
-
-
-                            if(
-                                typeof example ===
-                                "string"
-                            ){
-
-                                text =
-                                    example;
-
-                            }
-
-                            else if(
-                                example &&
-                                example.text
-                            ){
-
-                                text =
-                                    example.text;
-
-                            }
-
-
-                            if(
-                                text &&
-                                !examples.includes(
-                                    text
-                                )
-                            ){
-
-                                examples.push(
-                                    text
-                                );
-
-                            }
-
-                        }
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    const definition =
-        definitions
-        .slice(0,3)
-        .join("; ");
-
-
-    const example =
-        examples[0] ||
-        "";
-
-
-    if(!definition){
-
-        setStatus(
-            "Word found, but no usable definition was returned. Try Google."
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       PRONUNCIATION
-    ===================================================== */
-
-    let pronunciation =
-        "";
-
-
-    if(
-        entry.sounds &&
-        Array.isArray(entry.sounds)
-    ){
-
-        for(
-            const sound of entry.sounds
-        ){
-
-            if(
-                sound.ipa
-            ){
-
-                pronunciation =
-                    sound.ipa;
-
-                break;
-
-            }
-
+        if (!entry) {
+            setStatus("Word not found. Try Google for more info.", "error");
+            $("searchBtn").disabled = false;
+            return;
         }
 
+        // Extract part of speech
+        const partOfSpeech = entry.pos || "";
+
+        // Extract definitions and examples
+        let definitions = [];
+        let examples = [];
+
+        if (entry.senses && Array.isArray(entry.senses)) {
+            entry.senses.forEach(sense => {
+                if (sense.glosses && Array.isArray(sense.glosses)) {
+                    sense.glosses.forEach(gloss => {
+                        if (gloss && !definitions.includes(gloss)) {
+                            definitions.push(gloss);
+                        }
+                    });
+                }
+
+                if (sense.examples && Array.isArray(sense.examples)) {
+                    sense.examples.forEach(example => {
+                        let text = typeof example === "string" ? example : (example?.text || "");
+                        if (text && !examples.includes(text)) {
+                            examples.push(text);
+                        }
+                    });
+                }
+            });
+        }
+
+        const definition = definitions.slice(0, CONFIG.MAX_DEFINITIONS).join("; ");
+
+        if (!definition) {
+            setStatus("Word found but no definition available. Try Google.", "error");
+            $("searchBtn").disabled = false;
+            return;
+        }
+
+        const example = examples[0] || "";
+
+        // Extract pronunciation
+        let pronunciation = "";
+
+        if (entry.sounds && Array.isArray(entry.sounds)) {
+            for (const sound of entry.sounds) {
+                if (sound.ipa) {
+                    pronunciation = sound.ipa;
+                    break;
+                }
+            }
+        }
+
+        // Store current word
+        currentWord = {
+            word: originalWord,
+            lookupWord: lookupWord,
+            partOfSpeech: partOfSpeech,
+            pronunciation: pronunciation,
+            definition: definition,
+            example: example,
+            created: new Date().toISOString()
+        };
+
+        // Display result
+        $("resultWord").textContent = originalWord;
+        $("resultPart").textContent = partOfSpeech || "";
+        $("resultPronunciation").textContent = pronunciation ? "🔤 " + pronunciation : "🔤 Pronunciation unavailable";
+
+        $("resultDefinition").innerHTML = 
+            "<strong>Meaning</strong><br>" + escapeHTML(definition);
+
+        if (example) {
+            $("resultExample").innerHTML = 
+                "<strong>Example</strong><br>" + escapeHTML(example);
+            $("resultExample").classList.add("show");
+        } else {
+            $("resultExample").classList.remove("show");
+        }
+
+        $("result").classList.add("show");
+        setStatus("✅ Found! Listen and save it.", "success");
+
+    } catch (error) {
+        console.error("Lookup error:", error);
+        setStatus("Error: Network issue or API unavailable. Try Google.", "error");
+    } finally {
+        $("searchBtn").disabled = false;
     }
-
-
-    /* =====================================================
-       CURRENT WORD OBJECT
-    ===================================================== */
-
-    currentWord = {
-
-        word:
-            originalWord,
-
-        lookupWord:
-            lookupWord,
-
-        partOfSpeech:
-            partOfSpeech,
-
-        pronunciation:
-            pronunciation,
-
-        definition:
-            definition,
-
-        example:
-            example,
-
-        created:
-            new Date().toISOString()
-
-    };
-
-
-    /* =====================================================
-       DISPLAY
-    ===================================================== */
-
-    $("resultWord").textContent =
-        originalWord;
-
-
-    $("resultPart").textContent =
-        partOfSpeech
-        ? partOfSpeech
-        : "";
-
-
-    $("resultPronunciation").textContent =
-        pronunciation
-        ? "🔤 " + pronunciation
-        : "🔤 Pronunciation unavailable";
-
-
-    $("resultDefinition").innerHTML =
-        "<strong>Meaning</strong><br>" +
-        escapeHTML(
-            definition
-        );
-
-
-    if(example){
-
-        $("resultExample").style.display =
-            "block";
-
-
-        $("resultExample").innerHTML =
-            "<strong>Example</strong><br>" +
-            escapeHTML(
-                example
-            );
-
-    }
-
-    else{
-
-        $("resultExample").style.display =
-            "none";
-
-    }
-
-
-    $("result").style.display =
-        "block";
-
-
-    setStatus(
-        "✅ Meaning found. You can listen and save it."
-    );
-
 }
-
 
 /* =========================================================
    TEXT-TO-SPEECH
-   PRIMARY LISTEN FEATURE
 ========================================================= */
 
-function speakText(text){
-
-    if(
-        !("speechSynthesis" in window)
-    ){
-
-        setStatus(
-            "Your browser doesn't support speech pronunciation."
-        );
-
+function speakText(text) {
+    if (!("speechSynthesis" in window)) {
+        setStatus("Text-to-speech not supported on your browser.", "error");
         return;
-
     }
-
 
     speechSynthesis.cancel();
 
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = CONFIG.SPEECH_LANG;
+    utterance.rate = CONFIG.SPEECH_RATE;
+    utterance.pitch = 1;
+    utterance.volume = 1;
 
-    const utterance =
-        new SpeechSynthesisUtterance(
-            text
-        );
+    utterance.onstart = () => setStatus("🔊 Pronouncing...");
+    utterance.onend = () => setStatus("Pronunciation finished.", "success");
+    utterance.onerror = () => setStatus("Could not play pronunciation.", "error");
 
-
-    /*
-       English pronunciation
-    */
-
-    utterance.lang =
-        "en-US";
-
-
-    /*
-       Slightly slower so
-       pronunciation is clear.
-    */
-
-    utterance.rate =
-        0.72;
-
-
-    utterance.pitch =
-        1;
-
-
-    utterance.volume =
-        1;
-
-
-    utterance.onstart =
-        function(){
-
-            setStatus(
-                "🔊 Pronouncing..."
-            );
-
-        };
-
-
-    utterance.onend =
-        function(){
-
-            setStatus(
-                "Pronunciation finished."
-            );
-
-        };
-
-
-    utterance.onerror =
-        function(){
-
-            setStatus(
-                "Couldn't play pronunciation. Try again."
-            );
-
-        };
-
-
-    speechSynthesis.speak(
-        utterance
-    );
-
+    speechSynthesis.speak(utterance);
 }
 
-
-/* =========================================================
-   LISTEN CURRENT WORD
-========================================================= */
-
-function speakCurrentWord(){
-
-    if(!currentWord){
-
-        setStatus(
-            "Search for a word first."
-        );
-
+function speakCurrentWord() {
+    if (!currentWord) {
+        setStatus("Search for a word first.", "error");
         return;
-
     }
 
-
-    speakText(
-        currentWord.word
-    );
-
+    speakText(currentWord.word);
 }
-
 
 /* =========================================================
    SAVE WORD
 ========================================================= */
 
-function saveCurrentWord(){
-
-    if(!currentWord){
-
-        setStatus(
-            "Search for a word first."
-        );
-
+function saveCurrentWord() {
+    if (!currentWord) {
+        setStatus("Search for a word first.", "error");
         return;
-
     }
 
-
-    const existing =
-        savedWords.find(
-            function(item){
-
-                return (
-                    item.word.toLowerCase() ===
-                    currentWord.word.toLowerCase()
-                );
-
-            }
-        );
-
-
-    if(existing){
-
-        existing.partOfSpeech =
-            currentWord.partOfSpeech;
-
-        existing.pronunciation =
-            currentWord.pronunciation;
-
-        existing.definition =
-            currentWord.definition;
-
-        existing.example =
-            currentWord.example;
-
-        existing.updated =
-            new Date().toISOString();
-
-
-        setStatus(
-            "Existing word updated."
-        );
-
+    if (savedWords.length >= CONFIG.MAX_SAVED_WORDS) {
+        setStatus(`Maximum ${CONFIG.MAX_SAVED_WORDS} words reached. Delete some to save new ones.`, "error");
+        return;
     }
 
-    else{
-
-        savedWords.unshift({
-
-            id:
-                Date.now().toString(),
-
-            word:
-                currentWord.word,
-
-            partOfSpeech:
-                currentWord.partOfSpeech,
-
-            pronunciation:
-                currentWord.pronunciation,
-
-            definition:
-                currentWord.definition,
-
-            example:
-                currentWord.example,
-
-            created:
-                new Date().toISOString()
-
-        });
-
-
-        setStatus(
-            "💾 Word saved successfully."
+    try {
+        const existing = savedWords.find(item => 
+            item.word.toLowerCase() === currentWord.word.toLowerCase()
         );
 
+        if (existing) {
+            Object.assign(existing, {
+                partOfSpeech: currentWord.partOfSpeech,
+                pronunciation: currentWord.pronunciation,
+                definition: currentWord.definition,
+                example: currentWord.example,
+                updated: new Date().toISOString()
+            });
+
+            setStatus("✅ Word updated in your vocabulary.", "success");
+        } else {
+            savedWords.unshift({
+                id: Date.now().toString(),
+                word: currentWord.word,
+                partOfSpeech: currentWord.partOfSpeech,
+                pronunciation: currentWord.pronunciation,
+                definition: currentWord.definition,
+                example: currentWord.example,
+                created: new Date().toISOString()
+            });
+
+            setStatus("💾 Word saved successfully.", "success");
+        }
+
+        // Persist to localStorage
+        try {
+            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(savedWords));
+        } catch (error) {
+            console.error("Storage error:", error);
+            setStatus("Warning: Could not save to storage.", "error");
+        }
+
+        renderSavedWords();
+
+    } catch (error) {
+        console.error("Save error:", error);
+        setStatus("Error saving word. Try again.", "error");
     }
-
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-            savedWords
-        )
-    );
-
-
-    renderSavedWords();
-
 }
 
-
 /* =========================================================
-   GOOGLE SEARCH
+   GOOGLE SEARCH FALLBACK
 ========================================================= */
 
-function googleSearch(){
+function googleSearch() {
+    const word = $("wordInput").value.trim();
 
-    const word =
-        $("wordInput")
-        .value
-        .trim();
-
-
-    if(!word){
-
-        setStatus(
-            "Please enter a word first."
-        );
-
+    if (!word) {
+        setStatus("Please enter a word first.", "error");
         return;
-
     }
-
 
     window.open(
-        "https://www.google.com/search?q=" +
-        encodeURIComponent(
-            word + " meaning"
-        ),
+        "https://www.google.com/search?q=" + encodeURIComponent(word + " meaning"),
         "_blank"
     );
-
 }
 
+function googleSavedWord(id) {
+    try {
+        const item = savedWords.find(x => x.id === id);
+
+        if (!item) return;
+
+        window.open(
+            "https://www.google.com/search?q=" + encodeURIComponent(item.word + " meaning"),
+            "_blank"
+        );
+    } catch (error) {
+        console.error("Google search error:", error);
+    }
+}
 
 /* =========================================================
-   SAVED WORD LIST
+   RENDER SAVED WORDS
 ========================================================= */
 
-function renderSavedWords(){
+function renderSavedWords() {
+    try {
+        const query = $("filterInput").value.trim().toLowerCase();
 
-    const query =
-        $("filterInput")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-    const filtered =
-        savedWords.filter(
-            function(item){
-
-                return (
-
-                    item.word
-                    .toLowerCase()
-                    .includes(query)
-
-                    ||
-
-                    item.definition
-                    .toLowerCase()
-                    .includes(query)
-
-                );
-
-            }
+        const filtered = savedWords.filter(item => 
+            item.word.toLowerCase().includes(query) ||
+            item.definition.toLowerCase().includes(query)
         );
 
+        // Update count
+        $("count").textContent = savedWords.length + (savedWords.length === 1 ? " word" : " words");
 
-    $("count").textContent =
-        savedWords.length +
-        (
-            savedWords.length === 1
-            ? " word"
-            : " words"
-        );
-
-
-    if(
-        filtered.length === 0
-    ){
-
-        $("savedList").innerHTML =
-
-        `
-        <div
-        style="
-        text-align:center;
-        color:#667085;
-        padding:25px;
-        "
-        >
-        No saved words yet.
-        </div>
-        `;
-
-        return;
-
-    }
-
-
-    $("savedList").innerHTML =
-
-        filtered
-        .map(
-            function(item){
-
-                return `
-
-                <div class="saved-item">
-
-                    <div class="saved-word">
-                        ${escapeHTML(item.word)}
-                    </div>
-
-                    ${
-                        item.partOfSpeech
-                        ?
-                        `<div class="meta">
-                            ${escapeHTML(
-                                item.partOfSpeech
-                            )}
-                        </div>`
-                        :
-                        ""
-                    }
-
-                    ${
-                        item.pronunciation
-                        ?
-                        `<div class="saved-pronunciation">
-                            🔤 ${escapeHTML(
-                                item.pronunciation
-                            )}
-                        </div>`
-                        :
-                        ""
-                    }
-
-                    <div class="saved-definition">
-                        ${escapeHTML(
-                            item.definition
-                        )}
-                    </div>
-
-                    ${
-                        item.example
-                        ?
-                        `<div class="saved-example">
-                            Example:
-                            ${escapeHTML(
-                                item.example
-                            )}
-                        </div>`
-                        :
-                        ""
-                    }
-
-                    <div class="actions">
-
-                        <button
-                        class="audio"
-                        onclick="speakText(
-                            ${JSON.stringify(item.word)}
-                        )"
-                        >
-                        🔊 Listen
-                        </button>
-
-                        <button
-                        onclick="googleSavedWord(
-                            '${item.id}'
-                        )"
-                        >
-                        🔎 Google
-                        </button>
-
-                        <button
-                        class="danger"
-                        onclick="deleteWord(
-                            '${item.id}'
-                        )"
-                        >
-                        Delete
-                        </button>
-
-                    </div>
-
-                    <div class="meta">
-                        Saved:
-                        ${formatDate(
-                            item.created
-                        )}
-                    </div>
-
+        // Empty state
+        if (filtered.length === 0) {
+            $("savedList").innerHTML = `
+                <div class="empty-state">
+                    ${savedWords.length === 0 ? "No saved words yet. Search and save to build your vocabulary!" : "No words match your search."}
                 </div>
-
-                `;
-
-            }
-        )
-        .join("");
-
-}
-
-
-/* =========================================================
-   DATE
-========================================================= */
-
-function formatDate(dateString){
-
-    if(!dateString){
-        return "";
-    }
-
-
-    const date =
-        new Date(dateString);
-
-
-    return date.toLocaleDateString(
-        "en-IN",
-        {
-            day:"2-digit",
-            month:"short",
-            year:"numeric"
+            `;
+            return;
         }
-    );
 
+        // Render saved items
+        $("savedList").innerHTML = filtered.map(item => `
+            <div class="saved-item">
+                <div class="saved-word">${escapeHTML(item.word)}</div>
+                
+                ${item.partOfSpeech ? `<div class="meta">${escapeHTML(item.partOfSpeech)}</div>` : ""}
+                
+                ${item.pronunciation ? `<div class="saved-pronunciation">🔤 ${escapeHTML(item.pronunciation)}</div>` : ""}
+                
+                <div class="saved-definition">${escapeHTML(item.definition)}</div>
+                
+                ${item.example ? `<div class="saved-example">📝 <em>${escapeHTML(item.example)}</em></div>` : ""}
+                
+                <div class="actions">
+                    <button class="audio" onclick="speakText('${escapeHTML(item.word).replace(/'/g, "\\'")}')" title="Pronounce">
+                        🔊 Listen
+                    </button>
+                    <button onclick="googleSavedWord('${item.id}')" title="Search Google">
+                        🔍 Google
+                    </button>
+                    <button class="danger" onclick="deleteWord('${item.id}')" title="Delete">
+                        Delete
+                    </button>
+                </div>
+                
+                <div class="meta">Saved: ${formatDate(item.created)}</div>
+            </div>
+        `).join("");
+
+    } catch (error) {
+        console.error("Render error:", error);
+        setStatus("Error rendering vocabulary. Try refreshing.", "error");
+    }
 }
-
 
 /* =========================================================
    DELETE WORD
 ========================================================= */
 
-window.deleteWord =
-function(id){
+function deleteWord(id) {
+    try {
+        if (!confirm("Delete this word?")) {
+            return;
+        }
 
-    if(
-        !confirm(
-            "Delete this word?"
-        )
-    ){
+        savedWords = savedWords.filter(item => item.id !== id);
 
-        return;
+        try {
+            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(savedWords));
+        } catch (error) {
+            console.error("Storage error:", error);
+        }
 
+        renderSavedWords();
+        setStatus("✅ Word deleted.", "success");
+
+    } catch (error) {
+        console.error("Delete error:", error);
+        setStatus("Error deleting word.", "error");
     }
-
-
-    savedWords =
-        savedWords.filter(
-            function(item){
-
-                return item.id !== id;
-
-            }
-        );
-
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-            savedWords
-        )
-    );
-
-
-    renderSavedWords();
-
-};
-
-
-/* =========================================================
-   GOOGLE SAVED WORD
-========================================================= */
-
-window.googleSavedWord =
-function(id){
-
-    const item =
-        savedWords.find(
-            function(x){
-
-                return x.id === id;
-
-            }
-        );
-
-
-    if(!item){
-        return;
-    }
-
-
-    window.open(
-        "https://www.google.com/search?q=" +
-        encodeURIComponent(
-            item.word + " meaning"
-        ),
-        "_blank"
-    );
-
-};
-
-
-/* =========================================================
-   DELETE ALL
-========================================================= */
-
-function deleteAllWords(){
-
-    if(
-        savedWords.length === 0
-    ){
-
-        return;
-
-    }
-
-
-    if(
-        !confirm(
-            "Delete all saved vocabulary? This cannot be undone."
-        )
-    ){
-
-        return;
-
-    }
-
-
-    savedWords = [];
-
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-            savedWords
-        )
-    );
-
-
-    renderSavedWords();
-
 }
 
-
 /* =========================================================
-   CSV ESCAPE
+   DELETE ALL WORDS
 ========================================================= */
 
-function csvEscape(value){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-
-        return '""';
-
+function deleteAllWords() {
+    if (savedWords.length === 0) {
+        setStatus("No words to delete.", "error");
+        return;
     }
 
+    if (!confirm("Delete all " + savedWords.length + " saved words? This cannot be undone.")) {
+        return;
+    }
 
-    const text =
-        String(value)
-        .replace(/"/g,'""');
+    try {
+        savedWords = [];
 
+        try {
+            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(savedWords));
+        } catch (error) {
+            console.error("Storage error:", error);
+        }
 
-    return '"' +
-        text +
-        '"';
+        renderSavedWords();
+        setStatus("✅ All words deleted.", "success");
 
+    } catch (error) {
+        console.error("Delete all error:", error);
+        setStatus("Error deleting words.", "error");
+    }
 }
-
 
 /* =========================================================
    CSV EXPORT
 ========================================================= */
 
-function exportCSV(){
-
-    if(
-        savedWords.length === 0
-    ){
-
-        alert(
-            "There are no saved words to export."
-        );
-
-        return;
-
+function csvEscape(value) {
+    if (value === null || value === undefined) {
+        return '""';
     }
 
-
-    /*
-       CSV columns
-    */
-
-    const headers = [
-
-        "Word",
-
-        "Part of Speech",
-
-        "Pronunciation",
-
-        "Meaning",
-
-        "Example",
-
-        "Date Saved"
-
-    ];
-
-
-    const rows = [
-        headers
-    ];
-
-
-    savedWords.forEach(
-        function(item){
-
-            rows.push([
-
-                item.word || "",
-
-                item.partOfSpeech || "",
-
-                item.pronunciation || "",
-
-                item.definition || "",
-
-                item.example || "",
-
-                formatDate(
-                    item.created
-                )
-
-            ]);
-
-        }
-    );
-
-
-    /*
-       Convert to CSV
-    */
-
-    const csv =
-        rows
-        .map(
-            function(row){
-
-                return row
-                .map(csvEscape)
-                .join(",");
-
-            }
-        )
-        .join("\r\n");
-
-
-    /*
-       UTF-8 BOM helps Excel
-       correctly recognize UTF-8.
-    */
-
-    const BOM =
-        "\uFEFF";
-
-
-    const blob =
-        new Blob(
-            [
-                BOM + csv
-            ],
-            {
-                type:
-                "text/csv;charset=utf-8;"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement("a");
-
-
-    link.href =
-        url;
-
-
-    link.download =
-        "my-vocabulary.csv";
-
-
-    document.body.appendChild(
-        link
-    );
-
-
-    link.click();
-
-
-    document.body.removeChild(
-        link
-    );
-
-
-    URL.revokeObjectURL(
-        url
-    );
-
-
-    setStatus(
-        "📊 Vocabulary CSV downloaded successfully."
-    );
-
+    const text = String(value).replace(/"/g, '""');
+    return '"' + text + '"';
 }
 
+function exportCSV() {
+    if (savedWords.length === 0) {
+        setStatus("No words to export. Add some first!", "error");
+        return;
+    }
+
+    try {
+        const headers = ["Word", "Part of Speech", "Pronunciation", "Meaning", "Example", "Date Saved"];
+        const rows = [headers];
+
+        savedWords.forEach(item => {
+            rows.push([
+                item.word || "",
+                item.partOfSpeech || "",
+                item.pronunciation || "",
+                item.definition || "",
+                item.example || "",
+                formatDate(item.created)
+            ]);
+        });
+
+        const csv = rows.map(row => row.map(csvEscape).join(",")).join("\r\n");
+        const BOM = "\uFEFF";
+        const blob = new Blob([BOM + csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "vocabulary-" + new Date().toISOString().split("T")[0] + ".csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        setStatus("📊 Vocabulary exported successfully.", "success");
+
+    } catch (error) {
+        console.error("Export error:", error);
+        setStatus("Error exporting vocabulary.", "error");
+    }
+}
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
 renderSavedWords();
+
+// Clear status message after page load
+window.addEventListener("load", () => {
+    if ($("status").textContent === "Ready. Tap Speak and say an English word.") {
+        // Keep initial message
+    }
+});
 
 </script>
 
